@@ -11,10 +11,12 @@ public class GameStateManager : MonoBehaviour
 
     void Awake()
     {
-        if (I) { Destroy(gameObject); return; }
-        I = this; DontDestroyOnLoad(gameObject);
+        //if (I != null && I != this) { Destroy(gameObject); return; }
+        I = this;
+        DontDestroyOnLoad(gameObject); 
         seed = Random.Range(int.MinValue, int.MaxValue);
     }
+
 
     public void StartMatch() { currentRound = 0; activeRules.Clear(); LoadRace(); }
     public void OnRoundEnd(int winnerId)
@@ -24,7 +26,7 @@ public class GameStateManager : MonoBehaviour
     }
     public void ApplyDraftChoice(RuleCard c) { if (c) activeRules.Add(ScriptableObject.Instantiate(c)); LoadRace(); }
     public void DecrementDurations() { for (int i = activeRules.Count - 1; i >= 0; i--) { activeRules[i].remainingRounds--; if (activeRules[i].remainingRounds <= 0) activeRules.RemoveAt(i); } }
-    public void LoadRace() { DecrementDurations(); SceneManager.LoadScene("Game_Race_2D"); }
+    public void LoadRace() { DecrementDurations(); SceneManager.LoadScene("GameRace_2D"); }
     public void LoadDraft() { SceneManager.LoadScene("Draft"); }
     public void LoadLobby() { SceneManager.LoadScene("Lobby"); }
 }
