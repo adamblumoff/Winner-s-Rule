@@ -24,7 +24,6 @@ public class FinishVolume2D : MonoBehaviour
         raceFinished = true;
         int winnerId = playerStats.playerId;
         
-        Debug.Log($"Race finished! Winner: Player {winnerId + 1} (ID: {winnerId})");
         GameStateManager.I.OnRoundEnd(winnerId);
     }
 }

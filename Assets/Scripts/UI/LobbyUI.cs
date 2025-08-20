@@ -20,7 +20,6 @@ public class LobbyUI : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("LobbyUI Start() called");
         SetupUI();
     }
 
@@ -40,10 +39,9 @@ public class LobbyUI : MonoBehaviour
 
         if (startGameButton)
         {
-            Debug.Log("Setting up start game button");
             startGameButton.onClick.RemoveAllListeners();
             startGameButton.onClick.AddListener(StartGame);
-            startGameButton.interactable = true; // Ensure button is interactable
+            startGameButton.interactable = true;
         }
         else
         {
@@ -89,8 +87,6 @@ public class LobbyUI : MonoBehaviour
 
     void StartGame()
     {
-        Debug.Log("StartGame() called");
-        
         if (GameStateManager.I == null) 
         {
             Debug.LogError("GameStateManager not found! Cannot start game.");
@@ -104,8 +100,6 @@ public class LobbyUI : MonoBehaviour
                 activePlayers++;
         }
 
-        Debug.Log($"Active players: {activePlayers}");
-
         if (activePlayers < 2)
         {
             Debug.LogWarning("Need at least 2 players to start!");
@@ -114,7 +108,6 @@ public class LobbyUI : MonoBehaviour
 
         var gsm = GameStateManager.I;
         gsm.totalRounds = selectedRounds;
-        Debug.Log($"Starting game with {selectedRounds} rounds");
         gsm.StartMatch();
     }
 

@@ -88,8 +88,6 @@ public class MicroGameController2D : MonoBehaviour
         if (!raceActive) return;
         
         raceActive = false;
-        Debug.Log("Race ended by timeout - determining winner by position");
-        
         int winnerId = DetermineWinnerByPosition();
         GameStateManager.I.OnRoundEnd(winnerId);
     }
@@ -120,7 +118,6 @@ public class MicroGameController2D : MonoBehaviour
         if (!raceActive) return;
         
         raceActive = false;
-        Debug.Log($"Player {playerId + 1} finished the race!");
         
         if (GameStateManager.I != null)
         {
