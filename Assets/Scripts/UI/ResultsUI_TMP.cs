@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using System.Collections;
 
 public class ResultsUI_TMP : MonoBehaviour
 {
@@ -14,19 +16,41 @@ public class ResultsUI_TMP : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(WaitForGameStateManager());
+    }
+
+    System.Collections.IEnumerator WaitForGameStateManager()
+    {
+        // Wait a frame or two for GameStateManager to initialize
+        yield return null;
+        yield return null;
+
         var gsm = GameStateManager.I;
 
         if (gsm == null)
         {
+            // Try to find it in the scene
+            gsm = FindFirstObjectByType<GameStateManager>();
+        }
+
+        if (gsm == null)
+        {
             // Fallback if Results is run directly
+            Debug.LogWarning("GameStateManager not found! Using fallback values.");
             title.text = "Round Results";
             subtitle.text = "Round 1/1";
             winnerText.text = "Winner: Player 1";
             nextButtonLabel.text = "Back to Lobby";
             nextButton.onClick.AddListener(() =>
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby"));
-            return;
+            yield break;
         }
+
+        SetupUI(gsm);
+    }
+
+    void SetupUI(GameStateManager gsm)
+    {
 
         bool final = gsm.currentRound >= gsm.totalRounds;
 
@@ -38,8 +62,14 @@ public class ResultsUI_TMP : MonoBehaviour
         nextButton.onClick.RemoveAllListeners();
         nextButton.onClick.AddListener(() =>
         {
-            if (final) gsm.LoadLobby();
-            else gsm.LoadDraft();
+            if (final) 
+            {
+                gsm.LoadLobby();
+            }
+            else 
+            {
+                gsm.LoadDraft();
+            }
         });
 
         if (mainMenuButton != null)
