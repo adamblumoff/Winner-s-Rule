@@ -61,7 +61,7 @@ public class GravityFlipGameController : MonoBehaviour
         
         if (spawnerController != null)
         {
-            spawnerController.OnItemCollected += OnItemCollected;
+            spawnerController.OnItemCollectedEvent += OnItemCollected;
         }
         
         // Start countdown

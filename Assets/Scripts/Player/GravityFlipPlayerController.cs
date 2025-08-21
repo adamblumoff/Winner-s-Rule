@@ -24,11 +24,21 @@ public class GravityFlipPlayerController : MonoBehaviour
     public System.Action OnHit;
     
     public bool CanDash => dashCooldownTimer <= 0f && !dashActive;
-    public float DashCooldownProgress => 1f - (dashCooldownTimer / config.dashCooldown);
+    public float DashCooldownProgress => config != null ? 1f - (dashCooldownTimer / config.dashCooldown) : 0f;
     
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        
+        // Find config if not assigned
+        if (config == null)
+        {
+            GravityFlipGameController gameController = FindFirstObjectByType<GravityFlipGameController>();
+            if (gameController != null)
+            {
+                config = gameController.config;
+            }
+        }
         
         // Set up camera bounds automatically if not set
         if (leftBound == rightBound)
@@ -65,7 +75,7 @@ public class GravityFlipPlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // Apply horizontal movement
-        if (!dashActive)
+        if (!dashActive && config != null)
         {
             rb.linearVelocity = new Vector2(horizontalInput * config.playerSpeed, rb.linearVelocity.y);
         }
@@ -78,6 +88,8 @@ public class GravityFlipPlayerController : MonoBehaviour
     
     IEnumerator PerformDash()
     {
+        if (config == null) yield break;
+        
         dashActive = true;
         dashCooldownTimer = config.dashCooldown;
         OnDashUsed?.Invoke();
@@ -92,7 +104,10 @@ public class GravityFlipPlayerController : MonoBehaviour
         dashActive = false;
         
         // Return to normal horizontal movement
-        rb.linearVelocity = new Vector2(horizontalInput * config.playerSpeed, rb.linearVelocity.y);
+        if (config != null)
+        {
+            rb.linearVelocity = new Vector2(horizontalInput * config.playerSpeed, rb.linearVelocity.y);
+        }
     }
     
     void OnTriggerEnter2D(Collider2D other)

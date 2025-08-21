@@ -9,32 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: YOUR_SPAWN_TABLE_SCRIPT_GUID, type: 3}
-  m_Name: GravityFlipDodgeSpawnTable
+  m_Script: {fileID: 11500000, guid: f52c74d95ba955b49b7b21b173034fff, type: 3}
+  m_Name: SpawnTable
   m_EditorClassIdentifier: Assembly-CSharp::SpawnTable
   hazards:
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 5606159160134541878, guid: 6e481194720de3949967022459b41533, type: 3}
     weight: 3
     speedMin: 4
     speedMax: 7
     sizeMin: 1
-    sizeMax: 1.2
-  - prefab: {fileID: 0}
-    weight: 2
-    speedMin: 3
-    speedMax: 5
-    sizeMin: 0.8
-    sizeMax: 1.5
+    sizeMax: 2
   goods:
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 4690572408693103050, guid: 0165c7b152b0b894fb16b80f296b5692, type: 3}
     weight: 4
     speedMin: 3
     speedMax: 6
     sizeMin: 0.8
     sizeMax: 1
-  - prefab: {fileID: 0}
-    weight: 1
-    speedMin: 5
-    speedMax: 8
-    sizeMin: 0.6
-    sizeMax: 0.8

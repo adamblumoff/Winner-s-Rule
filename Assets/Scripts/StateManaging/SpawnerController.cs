@@ -37,7 +37,7 @@ public class SpawnerController : MonoBehaviour
     private float nextBurstTime = 0f;
     
     // Events
-    public System.Action<Item, GravityFlipPlayerController> OnItemCollected;
+    public System.Action<Item, GravityFlipPlayerController> OnItemCollectedEvent;
     
     void Start()
     {
@@ -287,12 +287,12 @@ public class SpawnerController : MonoBehaviour
     
     void OnGravityFlipped(bool isGravityDown)
     {
-        spawnFromTop = !isGravityDown; // Spawn from opposite side of gravity
+        spawnFromTop = isGravityDown; // When gravity is down, spawn from top (and vice versa)
     }
     
     public void OnItemCollected(Item item, GravityFlipPlayerController player)
     {
-        OnItemCollected?.Invoke(item, player);
+        OnItemCollectedEvent?.Invoke(item, player);
         
         // Remove from active tracking
         activeItems.Remove(item);

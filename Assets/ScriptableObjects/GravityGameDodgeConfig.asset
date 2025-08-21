@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: YOUR_MINIGAME_CONFIG_SCRIPT_GUID, type: 3}
-  m_Name: GravityFlipDodgeConfig
+  m_Script: {fileID: 11500000, guid: 1be3329b86b54f34984e5c4c9d224d22, type: 3}
+  m_Name: GravityGameDodgeConfig
   m_EditorClassIdentifier: Assembly-CSharp::MinigameConfig
   durationSeconds: 25
   startGravity: 1

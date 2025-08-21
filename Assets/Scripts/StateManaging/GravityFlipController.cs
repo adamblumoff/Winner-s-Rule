@@ -158,7 +158,7 @@ public class GravityFlipController : MonoBehaviour
     
     public Vector2 GetSpawnDirection()
     {
-        // Returns direction items should move when spawned
+        // Returns direction items should move when spawned (toward the player)
         return currentGravityDown ? Vector2.down : Vector2.up;
     }
     
