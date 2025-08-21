@@ -13,7 +13,7 @@ public class SpawnerController : MonoBehaviour
     public Transform bottomSpawner;
     
     [Header("Spawn Area")]
-    public float spawnWidth = 10f;
+    public float spawnWidth = 20f;
     public float spawnMargin = 0.5f;
     
     // Object pools
@@ -48,11 +48,14 @@ public class SpawnerController : MonoBehaviour
     {
         gravityController = FindFirstObjectByType<GravityFlipController>();
         mainCamera = Camera.main;
-        
+
         // Set up camera-based spawn width if not manually set
         if (spawnWidth <= 0f && mainCamera != null)
         {
+            // Expand spawn width beyond camera bounds to cover full scene
             spawnWidth = mainCamera.orthographicSize * mainCamera.aspect * 2f;
+            Debug.Log(spawnWidth);
+
         }
         
         // Subscribe to gravity flip events
