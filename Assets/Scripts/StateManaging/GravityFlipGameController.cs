@@ -16,6 +16,15 @@ public class GravityFlipGameController : MonoBehaviour
     [Header("Configuration")]
     public MinigameConfig config;
     
+    // Original config values for resetting after rounds
+    private float originalPlayerSpeed;
+    private float originalDashSpeed;
+    private float originalDashCooldown;
+    private int originalHitsToFail;
+    private float originalHazardSpawnRate;
+    private float originalGoodSpawnRate;
+    private float originalDurationSeconds;
+    
     [Header("References")]
     public GravityFlipPlayerController player;
     public GravityFlipController gravityController;
@@ -47,6 +56,12 @@ public class GravityFlipGameController : MonoBehaviour
     void Initialize()
     {
         currentState = GravityFlipGameState.Init;
+        
+        // Save original config values first
+        SaveOriginalConfigValues();
+        
+        // Apply rule effects to config values
+        ApplyRuleEffects();
         
         // Initialize game state
         gameTimer = config.durationSeconds;
@@ -256,6 +271,10 @@ public class GravityFlipGameController : MonoBehaviour
             return;
         
         currentState = GravityFlipGameState.Ending;
+        
+        // Restore original config values when game ends
+        RestoreOriginalConfigValues();
+        
         StartCoroutine(EndGameSequence());
     }
     
@@ -359,10 +378,123 @@ public class GravityFlipGameController : MonoBehaviour
     
     public void ContinueToResults()
     {
+        // Restore original config values before ending round
+        RestoreOriginalConfigValues();
+        
         // Continue to next phase in game loop
         if (currentState == GravityFlipGameState.Results)
         {
             GameStateManager.I?.OnRoundEnd(0); // Winner doesn't matter for single-player minigame
+        }
+    }
+    
+    void SaveOriginalConfigValues()
+    {
+        originalPlayerSpeed = config.playerSpeed;
+        originalDashSpeed = config.dashSpeed;
+        originalDashCooldown = config.dashCooldown;
+        originalHitsToFail = config.hitsToFail;
+        originalHazardSpawnRate = config.hazardSpawnRate;
+        originalGoodSpawnRate = config.goodSpawnRate;
+        originalDurationSeconds = config.durationSeconds;
+        
+        Debug.Log("Original config values saved for reset after round");
+    }
+    
+    void RestoreOriginalConfigValues()
+    {
+        config.playerSpeed = originalPlayerSpeed;
+        config.dashSpeed = originalDashSpeed;
+        config.dashCooldown = originalDashCooldown;
+        config.hitsToFail = originalHitsToFail;
+        config.hazardSpawnRate = originalHazardSpawnRate;
+        config.goodSpawnRate = originalGoodSpawnRate;
+        config.durationSeconds = originalDurationSeconds;
+        
+        Debug.Log("Config values restored to original defaults");
+    }
+    
+    void ApplyRuleEffects()
+    {
+        if (GameStateManager.I == null || GameStateManager.I.activeRules == null) return;
+        
+        Debug.Log($"Applying rule effects from {GameStateManager.I.activeRules.Count} active rules");
+        
+        foreach (RuleCard rule in GameStateManager.I.activeRules)
+        {
+            if (!rule.IsCompatibleWith(MinigameType.GravityFlipDodge)) continue;
+            
+            Debug.Log($"Applying effects from rule: {rule.title}");
+            
+            // Apply positive effects
+            if (rule.effects != null)
+            {
+                foreach (RuleEffect effect in rule.effects)
+                {
+                    ApplyRuleEffect(effect, rule.title, "effect");
+                }
+            }
+            
+            // Apply negative effects (drawbacks)
+            if (rule.drawbacks != null)
+            {
+                foreach (RuleEffect drawback in rule.drawbacks)
+                {
+                    ApplyRuleEffect(drawback, rule.title, "drawback");
+                }
+            }
+        }
+    }
+    
+    void ApplyRuleEffect(RuleEffect effect, string cardName, string effectType)
+    {
+        switch (effect.stat)
+        {
+            case Stat.MoveSpeed:
+                float oldMoveSpeed = config.playerSpeed;
+                config.playerSpeed += effect.addFlat;
+                config.playerSpeed *= (1f + effect.addPct);
+                Debug.Log($"{cardName} {effectType}: MoveSpeed {oldMoveSpeed:F1} → {config.playerSpeed:F1}");
+                break;
+                
+            case Stat.HitPoints:
+                int oldHits = config.hitsToFail;
+                config.hitsToFail += Mathf.RoundToInt(effect.addFlat);
+                config.hitsToFail = Mathf.RoundToInt(config.hitsToFail * (1f + effect.addPct));
+                Debug.Log($"{cardName} {effectType}: HitPoints {oldHits} → {config.hitsToFail}");
+                break;
+                
+            case Stat.DashSpeed:
+                float oldDashSpeed = config.dashSpeed;
+                config.dashSpeed += effect.addFlat;
+                config.dashSpeed *= (1f + effect.addPct);
+                Debug.Log($"{cardName} {effectType}: DashSpeed {oldDashSpeed:F1} → {config.dashSpeed:F1}");
+                break;
+                
+            case Stat.DashCooldown:
+                float oldDashCooldown = config.dashCooldown;
+                config.dashCooldown += effect.addFlat;
+                config.dashCooldown *= (1f + effect.addPct);
+                Debug.Log($"{cardName} {effectType}: DashCooldown {oldDashCooldown:F1} → {config.dashCooldown:F1}");
+                break;
+                
+            case Stat.ItemSpawnRate:
+                float oldHazardRate = config.hazardSpawnRate;
+                config.hazardSpawnRate += effect.addFlat;
+                config.hazardSpawnRate *= (1f + effect.addPct);
+                Debug.Log($"{cardName} {effectType}: ItemSpawnRate {oldHazardRate:F1} → {config.hazardSpawnRate:F1}");
+                break;
+                
+            case Stat.GameDuration:
+                float oldDuration = config.durationSeconds;
+                config.durationSeconds += effect.addFlat;
+                config.durationSeconds *= (1f + effect.addPct);
+                Debug.Log($"{cardName} {effectType}: GameDuration {oldDuration:F1} → {config.durationSeconds:F1}");
+                break;
+                
+            default:
+                Debug.LogWarning($"Unhandled stat in rule effect: {effect.stat} from {cardName}");
+                break;
         }
     }
 }

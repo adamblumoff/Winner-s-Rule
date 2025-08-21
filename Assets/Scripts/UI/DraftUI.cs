@@ -69,7 +69,11 @@ public class DraftUI : MonoBehaviour
         if (rc == null) { DisableCard(title, desc, tags, impact, pick); return; }
 
         if (title) title.text = rc.title;
-        if (desc) desc.text = string.IsNullOrEmpty(rc.description) ? "No description" : rc.description;
+        if (desc) 
+        {
+            string gameSpecificDesc = rc.GetDescriptionForGame(MinigameType.GravityFlipDodge);
+            desc.text = string.IsNullOrEmpty(gameSpecificDesc) ? "No description" : gameSpecificDesc;
+        }
 
         // Tags: join rc.tags plus scope
         if (tags)
@@ -99,8 +103,17 @@ public class DraftUI : MonoBehaviour
 
     void OnPick(int index)
     {
-        if (offered == null || index < 0 || index >= offered.Length) return;
+        if (offered == null || index < 0 || index >= offered.Length) 
+        {
+            Debug.LogError($"OnPick failed: offered={offered}, index={index}");
+            return;
+        }
+        
         var chosen = offered[index];
+        Debug.Log($"Player picked card {index}: {chosen.title} (ID: {chosen.id})");
+        Debug.Log($"GameStateManager.I exists: {GameStateManager.I != null}");
+        Debug.Log($"ActiveRules count before: {GameStateManager.I?.activeRules?.Count ?? -1}");
+        
         GameStateManager.I.ApplyDraftChoice(chosen); // loads Game_Race_2D next
     }
 }

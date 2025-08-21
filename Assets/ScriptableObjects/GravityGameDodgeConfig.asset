@@ -17,8 +17,8 @@ MonoBehaviour:
   gravityDown: -18
   gravityUp: 18
   playerSpeed: 9
-  dashSpeed: 18
-  dashTime: 0.12
+  dashSpeed: 25
+  dashTime: 0.25
   dashCooldown: 1.5
   hazardSpawnRate: 0.8
   goodSpawnRate: 0.5
@@ -26,7 +26,7 @@ MonoBehaviour:
   flipIntervalMin: 3
   flipIntervalMax: 6
   flipWarningTime: 0.6
-  hitsToFail: 1
+  hitsToFail: 3
   scoreGoodPickup: 3
   scorePerSecond: 1
   rewardScalar: 0.15

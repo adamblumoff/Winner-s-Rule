@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.U2D;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class GravityFlipPlayerController : MonoBehaviour
@@ -14,6 +15,12 @@ public class GravityFlipPlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool dashActive = false;
     private float dashCooldownTimer = 0f;
+
+    private SpriteRenderer sprite;
+    
+    // Gravity cycle tracking for Quick Recovery card
+    private bool hasDashedThisCycle = false;
+    private bool isQuickRecoveryActive = false;
     
     // Input
     private float horizontalInput;
@@ -23,13 +30,14 @@ public class GravityFlipPlayerController : MonoBehaviour
     public System.Action OnDashUsed;
     public System.Action OnHit;
     
-    public bool CanDash => dashCooldownTimer <= 0f && !dashActive;
+    public bool CanDash => (isQuickRecoveryActive ? CanDashThisCycle : dashCooldownTimer <= 0f) && !dashActive;
     public float DashCooldownProgress => config != null ? 1f - (dashCooldownTimer / config.dashCooldown) : 0f;
+    public bool CanDashThisCycle => !isQuickRecoveryActive || !hasDashedThisCycle;
     
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        sprite = GetComponent<SpriteRenderer>();
         // Find config if not assigned
         if (config == null)
         {
@@ -50,6 +58,19 @@ public class GravityFlipPlayerController : MonoBehaviour
                 leftBound = -cameraWidth + 0.5f; // add margin
                 rightBound = cameraWidth - 0.5f;
             }
+        }
+    }
+    
+    void Start()
+    {
+        // Check if Quick Recovery card is active
+        CheckForQuickRecovery();
+        
+        // Subscribe to gravity flip events
+        GravityFlipController gravityController = FindFirstObjectByType<GravityFlipController>();
+        if (gravityController != null && isQuickRecoveryActive)
+        {
+            gravityController.OnGravityFlipped += OnGravityFlipped;
         }
     }
     
@@ -79,19 +100,38 @@ public class GravityFlipPlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(horizontalInput * config.playerSpeed, rb.linearVelocity.y);
         }
+        SpriteFlip();
         
         // Clamp position within bounds
-        Vector3 pos = transform.position;
+            Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, leftBound, rightBound);
         transform.position = pos;
     }
-    
+
+    void SpriteFlip()
+    {
+        if (horizontalInput > 0)
+        {
+            sprite.flipX = true;
+        }
+        else if (horizontalInput < 0)
+        {
+            sprite.flipX = false;
+        }
+    }
     IEnumerator PerformDash()
     {
         if (config == null) yield break;
         
         dashActive = true;
         dashCooldownTimer = config.dashCooldown;
+        
+        // Track dash usage for Quick Recovery card
+        if (isQuickRecoveryActive)
+        {
+            hasDashedThisCycle = true;
+        }
+        
         OnDashUsed?.Invoke();
         
         // Apply dash velocity (horizontal only)
@@ -141,5 +181,42 @@ public class GravityFlipPlayerController : MonoBehaviour
     {
         transform.position = position;
         rb.linearVelocity = Vector2.zero;
+    }
+    
+    void CheckForQuickRecovery()
+    {
+        // Check if Quick Recovery card is in active rules
+        if (GameStateManager.I != null && GameStateManager.I.activeRules != null)
+        {
+            foreach (RuleCard rule in GameStateManager.I.activeRules)
+            {
+                if (rule.id == "quick_recovery" && rule.IsCompatibleWith(MinigameType.GravityFlipDodge))
+                {
+                    isQuickRecoveryActive = true;
+                    Debug.Log("Quick Recovery card detected - dash limited to once per gravity cycle");
+                    break;
+                }
+            }
+        }
+    }
+    
+    void OnGravityFlipped(bool isGravityDown)
+    {
+        // Reset dash availability when gravity flips
+        if (isQuickRecoveryActive)
+        {
+            hasDashedThisCycle = false;
+            Debug.Log("Gravity flipped - dash availability reset for Quick Recovery");
+        }
+    }
+    
+    void OnDestroy()
+    {
+        // Unsubscribe from events
+        GravityFlipController gravityController = FindFirstObjectByType<GravityFlipController>();
+        if (gravityController != null)
+        {
+            gravityController.OnGravityFlipped -= OnGravityFlipped;
+        }
     }
 }

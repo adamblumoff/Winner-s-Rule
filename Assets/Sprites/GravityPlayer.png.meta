@@ -1,0 +1,422 @@
+fileFormatVersion: 2
+guid: 8de9cf0b7aa5efe4992099a6e235f9f8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2835277277949549010
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_0
+  - first:
+      213: 4008579896170220015
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_1
+  - first:
+      213: -7465134622676425326
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_2
+  - first:
+      213: -1808542652044806794
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_3
+  - first:
+      213: 2828907807983898392
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_4
+  - first:
+      213: -3016586490587527204
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_5
+  - first:
+      213: -161773633323412481
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_6
+  - first:
+      213: 7492276482642777821
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_7
+  - first:
+      213: 2170942797186295080
+    second: ChatGPT Image Aug 21, 2025, 11_20_10 AM_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GravityPlayer_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1017
+        width: 300
+        height: 460
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c578747191eea734291e0c70a9cb6a7e
+      internalID: -1671979811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_1
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 1017
+        width: 285
+        height: 456
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7794fb4413cd36f41ae08a02f7023b81
+      internalID: -1427268024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_2
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 992
+        width: 433
+        height: 488
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1605876a806941f4c9cd57a885960316
+      internalID: 1473808321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 543
+        width: 273
+        height: 457
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 908df2b12ba0d044f9b00ada349069a5
+      internalID: 437598199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_4
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 996
+        width: 7
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcd70d6d6e1fe954d8a33a5792854590
+      internalID: 1493898257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_5
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 996
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 089176e004121c3498b3667632898fa3
+      internalID: -235849450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_6
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 523
+        width: 383
+        height: 477
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14c353a36ca850047bf8649f89dea65c
+      internalID: 600839360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_7
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 272
+        width: 444
+        height: 728
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39be8119e0fd20d4b9d19774a2ccd1f3
+      internalID: -1959319412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9
+        width: 288
+        height: 503
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d82e624035d2e14aa7de619b089ac12
+      internalID: -481942659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_9
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 9
+        width: 289
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5410c330891b5e642b752579348603a0
+      internalID: 2026805320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_10
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 152
+        width: 4
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2da7f006afc6f6444b7882311d6cd2db
+      internalID: 1999891589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GravityPlayer_11
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 9
+        width: 429
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd321b11ffe20904b8a49d58fce6b16a
+      internalID: -208449010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 42e0b1b7f41f029458df6a82f8474dac
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      GravityPlayer_0: -1671979811
+      GravityPlayer_1: -1427268024
+      GravityPlayer_10: 1999891589
+      GravityPlayer_11: -208449010
+      GravityPlayer_2: 1473808321
+      GravityPlayer_3: 437598199
+      GravityPlayer_4: 1493898257
+      GravityPlayer_5: -235849450
+      GravityPlayer_6: 600839360
+      GravityPlayer_7: -1959319412
+      GravityPlayer_8: -481942659
+      GravityPlayer_9: 2026805320
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

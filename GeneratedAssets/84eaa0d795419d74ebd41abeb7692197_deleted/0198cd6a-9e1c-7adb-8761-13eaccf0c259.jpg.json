@@ -1,0 +1,20 @@
+{
+    "asset": "84eaa0d795419d74ebd41abeb7692197",
+    "fileName": "0198cd6a-9e1c-7adb-8761-13eaccf0c259.jpg",
+    "prompt": "Classic 2D pixel art sprite of a small adventurer character, 64x64 size, idle standing pose, clean outlines, simple shading, bright retro colors, transparent background\r\n",
+    "negativePrompt": "blurry, 3D render, photorealistic, low-resolution, distorted anatomy, background, watermark, text, noise\r\n",
+    "model": "267fe822-f888-4722-a29c-829c0a457c3d",
+    "modelName": "Action Plastic",
+    "customSeed": -1,
+    "w3CTraceId": "d64bcb4a0c6b35fdb45ff45c8d23433f",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}

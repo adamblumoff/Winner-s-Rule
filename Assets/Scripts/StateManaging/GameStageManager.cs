@@ -58,8 +58,37 @@ public class GameStateManager : MonoBehaviour
         currentRound++;
         SceneManager.LoadScene("Results");
     }
-    public void ApplyDraftChoice(RuleCard c) { if (c) activeRules.Add(ScriptableObject.Instantiate(c)); LoadRace(); }
-    public void DecrementDurations() { for (int i = activeRules.Count - 1; i >= 0; i--) { activeRules[i].remainingRounds--; if (activeRules[i].remainingRounds <= 0) activeRules.RemoveAt(i); } }
+    public void ApplyDraftChoice(RuleCard c) 
+    { 
+        Debug.Log($"ApplyDraftChoice called with card: {c?.title ?? "null"}");
+        if (c) 
+        {
+            var instantiated = ScriptableObject.Instantiate(c);
+            activeRules.Add(instantiated);
+            Debug.Log($"Added card to activeRules. New count: {activeRules.Count}");
+            Debug.Log($"Card details: {instantiated.title}, ID: {instantiated.id}, Compatible with GravityFlipDodge: {instantiated.IsCompatibleWith(MinigameType.GravityFlipDodge)}");
+        }
+        else
+        {
+            Debug.LogError("ApplyDraftChoice received null card!");
+        }
+        LoadRace(); 
+    }
+    public void DecrementDurations() 
+    { 
+        Debug.Log($"DecrementDurations: Starting with {activeRules.Count} rules");
+        for (int i = activeRules.Count - 1; i >= 0; i--) 
+        { 
+            activeRules[i].remainingRounds--; 
+            Debug.Log($"Rule '{activeRules[i].title}' now has {activeRules[i].remainingRounds} rounds remaining");
+            if (activeRules[i].remainingRounds <= 0) 
+            {
+                Debug.Log($"Removing expired rule: {activeRules[i].title}");
+                activeRules.RemoveAt(i); 
+            }
+        } 
+        Debug.Log($"DecrementDurations: Ending with {activeRules.Count} rules");
+    }
     public void LoadRace() 
     { 
         DecrementDurations(); 

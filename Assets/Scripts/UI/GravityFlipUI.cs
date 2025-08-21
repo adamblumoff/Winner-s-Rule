@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GravityFlipUI : MonoBehaviour
 {
@@ -44,6 +45,11 @@ public class GravityFlipUI : MonoBehaviour
     public TMP_Text draftBonusText;
     public Button continueButton;
     
+    [Header("Active Effects")]
+    public Transform activeEffectsContainer;
+    public GameObject activeEffectPrefab;
+    public TMP_Text activeEffectsTitle;
+    
     [Header("Visual Effects")]
     public Color warningColor = Color.red;
     public Color normalColor = Color.white;
@@ -82,6 +88,9 @@ public class GravityFlipUI : MonoBehaviour
             gravityController.OnFlipWarning += OnFlipWarning;
             gravityController.OnFlipWarningEnd += OnFlipWarningEnd;
         }
+        
+        // Load active effects from GameStateManager
+        LoadActiveEffectsFromGameState();
         
         // Initialize panels
         HideAllPanels();
@@ -194,6 +203,11 @@ public class GravityFlipUI : MonoBehaviour
                 dashCooldownText.text = "DASH";
                 dashCooldownText.color = Color.white;
             }
+            else if (!player.CanDashThisCycle)
+            {
+                dashCooldownText.text = "CYCLE";
+                dashCooldownText.color = Color.yellow;
+            }
             else
             {
                 float cooldownTime = (1f - player.DashCooldownProgress) * 1.5f; // Assuming 1.5s cooldown
@@ -208,7 +222,7 @@ public class GravityFlipUI : MonoBehaviour
         if (gravityArrow != null)
         {
             // Rotate arrow to show gravity direction
-            float rotation = isGravityDown ? 180f : 0f;
+            float rotation = isGravityDown ? 0f : 180f;
             gravityArrow.transform.rotation = Quaternion.Euler(0, 0, rotation);
         }
     }
@@ -307,6 +321,9 @@ public class GravityFlipUI : MonoBehaviour
         if (resultsPanel != null)
         {
             resultsPanel.SetActive(true);
+            
+            // Hide active effects when results are shown
+            ClearActiveEffects();
             
             // Fill in result values
             if (finalScoreText != null) finalScoreText.text = $"Final Score: {results.finalScore}";
@@ -455,5 +472,164 @@ public class GravityFlipUI : MonoBehaviour
         
         // Scale back
         target.localScale = originalScale;
+    }
+    
+    // Active Effects Management
+    private List<GameObject> activeEffectElements = new List<GameObject>();
+    private Dictionary<string, GameObject> effectElementMap = new Dictionary<string, GameObject>();
+    
+    public void AddActiveEffect(RuleCard card)
+    {
+        if (activeEffectsContainer == null || activeEffectPrefab == null) return;
+        if (effectElementMap.ContainsKey(card.id)) return;
+        
+        GameObject effectElement = Instantiate(activeEffectPrefab, activeEffectsContainer);
+        
+        // Configure the effect element
+        TMP_Text titleText = effectElement.GetComponentInChildren<TMP_Text>();
+        if (titleText != null)
+        {
+            titleText.text = card.title;
+            titleText.color = GetEffectTextColor(card);
+        }
+        
+        // Add tooltip
+        SimpleTooltip tooltip = effectElement.GetComponent<SimpleTooltip>();
+        if (tooltip == null)
+        {
+            tooltip = effectElement.AddComponent<SimpleTooltip>();
+        }
+        tooltip.tooltipText = $"{card.title}\n{card.GetDescriptionForGame(MinigameType.GravityFlipDodge)}";
+        
+        // Track the element
+        activeEffectElements.Add(effectElement);
+        effectElementMap[card.id] = effectElement;
+        
+        // Show effects container if hidden
+        if (activeEffectsContainer.gameObject.activeSelf == false)
+        {
+            activeEffectsContainer.gameObject.SetActive(true);
+        }
+        
+        // Update title
+        if (activeEffectsTitle != null)
+        {
+            activeEffectsTitle.text = $"Active Effects ({activeEffectElements.Count})";
+        }
+    }
+    
+    public void RemoveActiveEffect(string cardId)
+    {
+        if (!effectElementMap.ContainsKey(cardId)) return;
+        
+        GameObject effectElement = effectElementMap[cardId];
+        activeEffectElements.Remove(effectElement);
+        effectElementMap.Remove(cardId);
+        
+        if (effectElement != null)
+        {
+            Destroy(effectElement);
+        }
+        
+        // Update title
+        if (activeEffectsTitle != null)
+        {
+            if (activeEffectElements.Count > 0)
+            {
+                activeEffectsTitle.text = $"Active Effects ({activeEffectElements.Count})";
+            }
+            else
+            {
+                activeEffectsTitle.text = "No Active Effects";
+                // Optionally hide the container
+                activeEffectsContainer.gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    public void ClearActiveEffects()
+    {
+        foreach (GameObject element in activeEffectElements)
+        {
+            if (element != null)
+            {
+                Destroy(element);
+            }
+        }
+        
+        activeEffectElements.Clear();
+        effectElementMap.Clear();
+        
+        if (activeEffectsTitle != null)
+        {
+            activeEffectsTitle.text = "No Active Effects";
+        }
+        
+        if (activeEffectsContainer != null)
+        {
+            activeEffectsContainer.gameObject.SetActive(false);
+        }
+    }
+    
+    Color GetEffectTextColor(RuleCard card)
+    {
+        // Green for positive effects, red for negative, white for mixed
+        bool hasPositive = card.effects != null && card.effects.Length > 0;
+        bool hasNegative = card.drawbacks != null && card.drawbacks.Length > 0;
+        
+        if (hasPositive && !hasNegative) return Color.green;
+        if (!hasPositive && hasNegative) return Color.red;
+        return Color.white;
+    }
+    
+    // Load active effects from GameStateManager when scene starts
+    void LoadActiveEffectsFromGameState()
+    {
+        if (GameStateManager.I != null && GameStateManager.I.activeRules != null)
+        {
+            Debug.Log($"Loading {GameStateManager.I.activeRules.Count} active effects from GameStateManager");
+            
+            foreach (RuleCard rule in GameStateManager.I.activeRules)
+            {
+                // Only show cards compatible with current minigame
+                if (rule.IsCompatibleWith(MinigameType.GravityFlipDodge))
+                {
+                    Debug.Log($"Adding active effect: {rule.title}");
+                    AddActiveEffect(rule);
+                }
+            }
+            
+            // Show effects title
+            if (activeEffectsTitle != null)
+            {
+                if (activeEffectElements.Count > 0)
+                {
+                    activeEffectsTitle.text = $"Active Effects ({activeEffectElements.Count})";
+                }
+                else
+                {
+                    activeEffectsTitle.text = "No Active Effects";
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("No GameStateManager or active rules found");
+        }
+    }
+    
+    // Public methods for testing
+    [ContextMenu("Test Add Effect")]
+    void TestAddEffect()
+    {
+        // This is just for testing in the editor
+        Debug.Log("Test Add Effect called - connect this to your card system");
+    }
+    
+    [ContextMenu("Reload Active Effects")]
+    void TestReloadEffects()
+    {
+        ClearActiveEffects();
+        LoadActiveEffectsFromGameState();
     }
 }
