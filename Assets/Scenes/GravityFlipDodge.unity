@@ -1165,6 +1165,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &1607742723 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6840230976648225831, guid: 134b13d3af1db76479c7342767bcb09c, type: 3}
+  m_PrefabInstance: {fileID: 4750292562124813866}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1749576068 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5052355570262019242, guid: cbded667821fded4f958d1ec3ac457ca, type: 3}
@@ -1852,6 +1857,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3509210062870232399, guid: 001783b890a117d40bea9c73adf3961d, type: 3}
+      propertyPath: gravityIndicator
+      value: 
+      objectReference: {fileID: 1607742723}
     - target: {fileID: 3537710879151971215, guid: 001783b890a117d40bea9c73adf3961d, type: 3}
       propertyPath: m_Name
       value: GravityController

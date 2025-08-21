@@ -16,8 +16,8 @@ MonoBehaviour:
   title: Quick Recovery
   description: You bounce back from impacts with supernatural speed
   compatibleGames: 01000000
-  gameSpecificDescription: Move speed increase by 150%, but each dash only works
-    once per gravity cycle
+  gameSpecificDescription: Move speed increase by 50%, but each dash only works once
+    per gravity cycle
   scope: 2
   remainingRounds: 2
   effects:
@@ -28,7 +28,7 @@ MonoBehaviour:
     multiply: 1
   - targetIsGlobal: 0
     stat: 0
-    addPct: 1.5
+    addPct: 0.5
     addFlat: 0
     multiply: 1
   drawbacks: []

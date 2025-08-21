@@ -20,12 +20,12 @@ MonoBehaviour:
   dashSpeed: 25
   dashTime: 0.25
   dashCooldown: 1.5
-  hazardSpawnRate: 0.8
-  goodSpawnRate: 0.5
-  maxSimultaneous: 10
+  hazardSpawnRate: 0.6
+  goodSpawnRate: 0.3
+  maxSimultaneous: 9
   flipIntervalMin: 3
   flipIntervalMax: 6
-  flipWarningTime: 0.6
+  flipWarningTime: 0.4
   hitsToFail: 3
   scoreGoodPickup: 3
   scorePerSecond: 1

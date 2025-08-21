@@ -22,6 +22,9 @@ public class GravityFlipPlayerController : MonoBehaviour
     private bool hasDashedThisCycle = false;
     private bool isQuickRecoveryActive = false;
     
+    // Sprite rotation for gravity feedback
+    private Coroutine spriteRotationCoroutine;
+    
     // Input
     private float horizontalInput;
     private bool dashInput;
@@ -66,11 +69,19 @@ public class GravityFlipPlayerController : MonoBehaviour
         // Check if Quick Recovery card is active
         CheckForQuickRecovery();
         
-        // Subscribe to gravity flip events
+        // Subscribe to gravity flip events (all players need this for sprite flipping)
         GravityFlipController gravityController = FindFirstObjectByType<GravityFlipController>();
-        if (gravityController != null && isQuickRecoveryActive)
+        if (gravityController != null)
         {
             gravityController.OnGravityFlipped += OnGravityFlipped;
+            
+            // Set initial sprite orientation based on current gravity
+            if (sprite != null)
+            {
+                float initialRotation = gravityController.IsGravityDown ? 0f : 180f;
+                sprite.transform.rotation = Quaternion.Euler(0, 0, initialRotation);
+                Debug.Log($"Initial sprite rotation set to {initialRotation}° (gravity {(gravityController.IsGravityDown ? "down" : "up")})");
+            }
         }
     }
     
@@ -101,11 +112,6 @@ public class GravityFlipPlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(horizontalInput * config.playerSpeed, rb.linearVelocity.y);
         }
         SpriteFlip();
-        
-        // Clamp position within bounds
-            Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(pos.x, leftBound, rightBound);
-        transform.position = pos;
     }
 
     void SpriteFlip()
@@ -202,7 +208,10 @@ public class GravityFlipPlayerController : MonoBehaviour
     
     void OnGravityFlipped(bool isGravityDown)
     {
-        // Reset dash availability when gravity flips
+        // Smoothly rotate sprite based on gravity direction
+        StartSmoothSpriteRotation(isGravityDown);
+        
+        // Reset dash availability when gravity flips (Quick Recovery only)
         if (isQuickRecoveryActive)
         {
             hasDashedThisCycle = false;
@@ -210,8 +219,72 @@ public class GravityFlipPlayerController : MonoBehaviour
         }
     }
     
+    void StartSmoothSpriteRotation(bool isGravityDown)
+    {
+        // Stop any existing rotation
+        if (spriteRotationCoroutine != null)
+        {
+            StopCoroutine(spriteRotationCoroutine);
+        }
+        
+        // Start smooth rotation to new orientation
+        spriteRotationCoroutine = StartCoroutine(SmoothRotateSprite(isGravityDown));
+    }
+    
+    IEnumerator SmoothRotateSprite(bool isGravityDown)
+    {
+        if (sprite == null) yield break;
+        
+        // Target rotation: (0°,0°,0°) for gravity down, (0°,180°,180°) for gravity up
+        Vector3 targetRotation = isGravityDown ? Vector3.zero : new Vector3(0f, 180f, 180f);
+        Vector3 currentRotation = sprite.transform.eulerAngles;
+        
+        // Handle angle wrapping for each axis
+        for (int i = 0; i < 3; i++)
+        {
+            if (currentRotation[i] > 180f) currentRotation[i] -= 360f;
+            if (targetRotation[i] - currentRotation[i] > 180f) currentRotation[i] += 360f;
+            if (currentRotation[i] - targetRotation[i] > 180f) targetRotation[i] += 360f;
+        }
+        
+        float rotationSpeed = 450f; // degrees per second (0.8 seconds for full 360° flip)
+        float maxRotationDistance = Mathf.Max(
+            Mathf.Abs(targetRotation.y - currentRotation.y),
+            Mathf.Abs(targetRotation.z - currentRotation.z)
+        );
+        float rotationTime = maxRotationDistance / rotationSpeed;
+        
+        float elapsed = 0f;
+        
+        while (elapsed < rotationTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / rotationTime;
+            
+            // Smooth easing
+            float easedT = 1f - Mathf.Pow(1f - t, 3f); // Ease out cubic
+            
+            Vector3 rotation = Vector3.Lerp(currentRotation, targetRotation, easedT);
+            sprite.transform.rotation = Quaternion.Euler(rotation);
+            
+            yield return null;
+        }
+        
+        // Ensure exact final rotation
+        sprite.transform.rotation = Quaternion.Euler(targetRotation);
+        spriteRotationCoroutine = null;
+        
+        Debug.Log($"Sprite rotated to {targetRotation}° (gravity {(isGravityDown ? "down" : "up")})");
+    }
+    
     void OnDestroy()
     {
+        // Stop rotation coroutine
+        if (spriteRotationCoroutine != null)
+        {
+            StopCoroutine(spriteRotationCoroutine);
+        }
+        
         // Unsubscribe from events
         GravityFlipController gravityController = FindFirstObjectByType<GravityFlipController>();
         if (gravityController != null)
