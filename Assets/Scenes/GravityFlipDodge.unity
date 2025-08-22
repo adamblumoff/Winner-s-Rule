@@ -1221,6 +1221,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 107586789457017618, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 107586789457017618, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6879770585935832959, guid: 0f4f39901b919954789333870bac9863, type: 3}
     - target: {fileID: 562028877515398704, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1305,6 +1313,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GravityFlipUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3813891778056005511, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     - target: {fileID: 5256320002887162289, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1312,6 +1324,10 @@ PrefabInstance:
     - target: {fileID: 5256320002887162289, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449359114961957674, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_text
+      value: SLIDE
       objectReference: {fileID: 0}
     - target: {fileID: 8500628279565319564, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.y
