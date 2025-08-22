@@ -2,10 +2,10 @@ using UnityEngine;
 
 public enum RuleScope { Global, Targeted, Personal }
 public enum Stat { 
-    // Universal stats
-    MoveSpeed, Jump, Shield, PlatformSpeed, StaminaDrain, KnockbackTaken, RespawnDelay, Friction, Gravity,
-    // Gravity Flip Dodge specific
-    DashSpeed, DashCooldown, ItemSpawnRate, ItemSpeed, GravityFlipInterval, GameDuration, HitPoints
+    // Currently implemented stats for Gravity Flip Dodge
+    MoveSpeed, DashSpeed, DashCooldown, ItemSpawnRate, GameDuration, HitPoints,
+    // Special gameplay modifiers
+    DashLimitedPerCycle
 }
 public enum MinigameType { Any, GravityFlipDodge, ColorRush, ReactionRacer, NumberHunt }
 

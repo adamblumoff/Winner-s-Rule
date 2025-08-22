@@ -16,19 +16,19 @@ MonoBehaviour:
   title: Momentum Master
   description: Your dashes carry you further and faster than anyone else
   compatibleGames: 01000000
-  gameSpecificDescription: Dash speed increased by 300% but cooldown tripled
+  gameSpecificDescription: 'Slide speed doubles, but the cooldown doubles as well. '
   scope: 2
   remainingRounds: 2
   effects:
   - targetIsGlobal: 0
-    stat: 9
-    addPct: 3.0
+    stat: 1
+    addPct: 1
     addFlat: 0
     multiply: 1
   drawbacks:
   - targetIsGlobal: 0
-    stat: 10
-    addPct: 3.0
+    stat: 2
+    addPct: 2
     addFlat: 0
     multiply: 1
   tags:

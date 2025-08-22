@@ -11,6 +11,7 @@ public class GravityFlipUI : MonoBehaviour
     public TMP_Text timerText;
     public Slider timerSlider;
     public TMP_Text hitsRemainingText;
+    public GameObject timerAndHitsGameObject;
     
     [Header("Dash Cooldown")]
     public Image dashCooldownRadial;
@@ -103,6 +104,9 @@ public class GravityFlipUI : MonoBehaviour
     
     public void Initialize(MinigameConfig config)
     {
+        // Activate timer and hits GameObject on game start
+        if (timerAndHitsGameObject != null) timerAndHitsGameObject.SetActive(true);
+        
         // Initialize UI elements
         UpdateScore(0);
         UpdateTimer(config.durationSeconds, config.durationSeconds);
@@ -200,13 +204,13 @@ public class GravityFlipUI : MonoBehaviour
         {
             if (player.CanDash)
             {
-                dashCooldownText.text = "DASH";
+                dashCooldownText.text = "SLIDE";
                 dashCooldownText.color = Color.white;
             }
             else if (!player.CanDashThisCycle)
             {
-                dashCooldownText.text = "CYCLE";
-                dashCooldownText.color = Color.yellow;
+                dashCooldownText.text = "RECOVERING";
+                dashCooldownText.color = Color.red;
             }
             else
             {
@@ -321,6 +325,9 @@ public class GravityFlipUI : MonoBehaviour
         if (resultsPanel != null)
         {
             resultsPanel.SetActive(true);
+            
+            // Hide timer and hits GameObject when showing results
+            if (timerAndHitsGameObject != null) timerAndHitsGameObject.SetActive(false);
             
             // Hide active effects when results are shown
             ClearActiveEffects();
@@ -499,7 +506,9 @@ public class GravityFlipUI : MonoBehaviour
         {
             tooltip = effectElement.AddComponent<SimpleTooltip>();
         }
-        tooltip.tooltipText = $"{card.title}\n{card.GetDescriptionForGame(MinigameType.GravityFlipDodge)}";
+        string gameDescription = card.GetDescriptionForGame(MinigameType.GravityFlipDodge);
+        tooltip.tooltipText = $"{card.title}\n{gameDescription}";
+        Debug.Log($"Setting tooltip for {card.title}: {gameDescription}");
         
         // Track the element
         activeEffectElements.Add(effectElement);
@@ -514,7 +523,7 @@ public class GravityFlipUI : MonoBehaviour
         // Update title
         if (activeEffectsTitle != null)
         {
-            activeEffectsTitle.text = $"Active Effects ({activeEffectElements.Count})";
+            activeEffectsTitle.text = $"Active Effects";
         }
     }
     
@@ -536,7 +545,7 @@ public class GravityFlipUI : MonoBehaviour
         {
             if (activeEffectElements.Count > 0)
             {
-                activeEffectsTitle.text = $"Active Effects ({activeEffectElements.Count})";
+                activeEffectsTitle.text = $"Active Effects";
             }
             else
             {

@@ -53,29 +53,11 @@ public class PlayerStats2D : MonoBehaviour
             case Stat.MoveSpeed:
                 moveSpeed = isMultiplier ? moveSpeed * value : moveSpeed + value;
                 break;
-            case Stat.Jump:
-                jumpForce = isMultiplier ? jumpForce * value : jumpForce + value;
-                break;
-            case Stat.Gravity:
-                gravity = isMultiplier ? gravity * value : gravity + value;
-                break;
-            case Stat.Friction:
-                friction = isMultiplier ? friction * value : friction + value;
-                break;
-            case Stat.Shield:
-                shieldHits = isMultiplier ? Mathf.RoundToInt(shieldHits * value) : shieldHits + Mathf.RoundToInt(value);
-                break;
-            case Stat.PlatformSpeed:
-                platformSpeed = isMultiplier ? platformSpeed * value : platformSpeed + value;
-                break;
-            case Stat.StaminaDrain:
-                staminaDrainRate = isMultiplier ? staminaDrainRate * value : staminaDrainRate + value;
-                break;
-            case Stat.KnockbackTaken:
-                knockbackTakenMul = isMultiplier ? knockbackTakenMul * value : knockbackTakenMul + value;
-                break;
-            case Stat.RespawnDelay:
-                respawnDelay = isMultiplier ? respawnDelay * value : respawnDelay + value;
+            // Note: Other 2D platformer stats (Jump, Gravity, Friction, Shield, PlatformSpeed, 
+            // StaminaDrain, KnockbackTaken, RespawnDelay) removed from cleaned enum 
+            // as they're not currently implemented
+            default:
+                Debug.LogWarning($"Stat {stat} not supported in current PlayerStats2D implementation");
                 break;
         }
     }
@@ -85,14 +67,7 @@ public class PlayerStats2D : MonoBehaviour
         return stat switch
         {
             Stat.MoveSpeed => moveSpeed,
-            Stat.Jump => jumpForce,
-            Stat.Gravity => gravity,
-            Stat.Friction => friction,
-            Stat.Shield => shieldHits,
-            Stat.PlatformSpeed => platformSpeed,
-            Stat.StaminaDrain => staminaDrainRate,
-            Stat.KnockbackTaken => knockbackTakenMul,
-            Stat.RespawnDelay => respawnDelay,
+            // Note: Other 2D platformer stats removed from cleaned enum
             _ => 1f
         };
     }

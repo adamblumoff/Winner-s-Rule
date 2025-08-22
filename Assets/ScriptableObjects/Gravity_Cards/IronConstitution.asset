@@ -16,19 +16,19 @@ MonoBehaviour:
   title: Iron Constitution
   description: You can withstand more punishment than others
   compatibleGames: 01000000
-  gameSpecificDescription: You can take 6 extra hits before losing, but hazards spawn
-    90% faster
+  gameSpecificDescription: You can take 3 extra hits before losing, but hazards spawn
+    90% faster.
   scope: 2
   remainingRounds: 2
   effects:
   - targetIsGlobal: 0
-    stat: 15
+    stat: 5
     addPct: 0
-    addFlat: 6
+    addFlat: 3
     multiply: 1
   drawbacks:
   - targetIsGlobal: 0
-    stat: 11
+    stat: 3
     addPct: 0.9
     addFlat: 0
     multiply: 1

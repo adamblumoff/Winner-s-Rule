@@ -289,16 +289,38 @@ public class GravityFlipPlayerController : MonoBehaviour
     
     void CheckForQuickRecovery()
     {
-        // Check if Quick Recovery card is in active rules
+        // Check if any card has DashLimitedPerCycle effect
         if (GameStateManager.I != null && GameStateManager.I.activeRules != null)
         {
             foreach (RuleCard rule in GameStateManager.I.activeRules)
             {
-                if (rule.id == "quick_recovery" && rule.IsCompatibleWith(MinigameType.GravityFlipDodge))
+                if (!rule.IsCompatibleWith(MinigameType.GravityFlipDodge)) continue;
+                
+                // Check both effects and drawbacks for DashLimitedPerCycle
+                if (rule.effects != null)
                 {
-                    isQuickRecoveryActive = true;
-                    Debug.Log("Quick Recovery card detected - dash limited to once per gravity cycle");
-                    break;
+                    foreach (RuleEffect effect in rule.effects)
+                    {
+                        if (effect.stat == Stat.DashLimitedPerCycle)
+                        {
+                            isQuickRecoveryActive = true;
+                            Debug.Log($"{rule.title} - dash limited to once per gravity cycle");
+                            return;
+                        }
+                    }
+                }
+                
+                if (rule.drawbacks != null)
+                {
+                    foreach (RuleEffect drawback in rule.drawbacks)
+                    {
+                        if (drawback.stat == Stat.DashLimitedPerCycle)
+                        {
+                            isQuickRecoveryActive = true;
+                            Debug.Log($"{rule.title} - dash limited to once per gravity cycle (drawback)");
+                            return;
+                        }
+                    }
                 }
             }
         }

@@ -13,6 +13,7 @@ public class GravityFlipController : MonoBehaviour
     private bool currentGravityDown = true;
     private float nextFlipTime;
     private bool warningActive = false;
+    private Vector3 indicatorOriginalScale;
     
     // Events
     public System.Action<bool> OnGravityFlipped; // bool = isGravityDown
@@ -35,6 +36,12 @@ public class GravityFlipController : MonoBehaviour
         ApplyGravity();
         ScheduleNextFlip();
         UpdateGravityIndicator();
+        
+        // Store the original scale of the gravity indicator
+        if (gravityIndicator != null)
+        {
+            indicatorOriginalScale = gravityIndicator.localScale;
+        }
     }
     
     void Update()
@@ -120,23 +127,22 @@ public class GravityFlipController : MonoBehaviour
     {
         if (gravityIndicator == null) yield break;
         
-        Vector3 originalScale = gravityIndicator.localScale;
         float pulseTime = 0f;
         
         while (warningActive && pulseTime < config.flipWarningTime)
         {
-            // Pulse between 1.0 and 1.3 scale
+            // Pulse between 1.0 and 1.3 scale using the stored original scale
             float pulse = 1f + 0.3f * Mathf.Sin(pulseTime * 10f);
-            gravityIndicator.localScale = originalScale * pulse;
+            gravityIndicator.localScale = indicatorOriginalScale * pulse;
             
             pulseTime += Time.deltaTime;
             yield return null;
         }
         
-        // Reset scale
+        // Reset to stored original scale
         if (gravityIndicator != null)
         {
-            gravityIndicator.localScale = originalScale;
+            gravityIndicator.localScale = indicatorOriginalScale;
         }
     }
     

@@ -29,7 +29,11 @@ public class CardView_TMP : MonoBehaviour
         }
 
         if (titleText) titleText.text = rc.title;
-        if (descText) descText.text = string.IsNullOrEmpty(rc.description) ? "No description" : rc.description;
+        if (descText) 
+        {
+            string gameSpecificDesc = rc.GetDescriptionForGame(MinigameType.GravityFlipDodge);
+            descText.text = string.IsNullOrEmpty(gameSpecificDesc) ? "No description" : gameSpecificDesc;
+        }
 
         if (tagsText)
         {

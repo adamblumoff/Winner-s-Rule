@@ -518,6 +518,11 @@ public class GravityFlipGameController : MonoBehaviour
                 Debug.Log($"{cardName} {effectType}: GameDuration {oldDuration:F1} → {config.durationSeconds:F1}");
                 break;
                 
+            case Stat.DashLimitedPerCycle:
+                // This is handled in the player controller, just log it
+                Debug.Log($"{cardName} {effectType}: DashLimitedPerCycle activated");
+                break;
+                
             default:
                 Debug.LogWarning($"Unhandled stat in rule effect: {effect.stat} from {cardName}");
                 break;
