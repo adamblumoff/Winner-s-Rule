@@ -12,12 +12,18 @@ public class GravityFlipPlayerController : MonoBehaviour
     public float leftBound = -8f;
     public float rightBound = 8f;
     
+    [Header("Collider Adjustment")]
+    public float deathColliderOffset = 0.15f; // How much to move collider up when dead
+    public float dashColliderOffset = 0.1f; // How much to move collider up when dashing/sliding
+    
     private Rigidbody2D rb;
     private bool dashActive = false;
     private float dashCooldownTimer = 0f;
 
     private SpriteRenderer sprite;
     private Animator animator;
+    private BoxCollider2D boxCollider;
+    private Vector2 originalColliderOffset;
     
     // Gravity cycle tracking for Quick Recovery card
     private bool hasDashedThisCycle = false;
@@ -46,6 +52,13 @@ public class GravityFlipPlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        
+        // Store original collider offset
+        if (boxCollider != null)
+        {
+            originalColliderOffset = boxCollider.offset;
+        }
         // Find config if not assigned
         if (config == null)
         {
@@ -123,6 +136,9 @@ public class GravityFlipPlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(horizontalInput * config.playerSpeed, rb.linearVelocity.y);
         }
         SpriteFlip();
+        
+        // Adjust collider position based on animation state
+        UpdateColliderPosition();
     }
 
     void SpriteFlip()
@@ -151,6 +167,26 @@ public class GravityFlipPlayerController : MonoBehaviour
             // Update dash animation
             animator.SetBool("isDashing", dashActive);
         }
+    }
+    
+    void UpdateColliderPosition()
+    {
+        if (boxCollider == null) return;
+        
+        float offsetAdjustment = 0f;
+        
+        // Determine which offset to use based on state (priority: death > dash > normal)
+        if (isDead)
+        {
+            offsetAdjustment = deathColliderOffset;
+        }
+        else if (dashActive)
+        {
+            offsetAdjustment = dashColliderOffset;
+        }
+        
+        // Apply the offset
+        boxCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y + offsetAdjustment);
     }
     IEnumerator PerformDash()
     {
@@ -354,4 +390,5 @@ public class GravityFlipPlayerController : MonoBehaviour
             gravityController.OnGravityFlipped -= OnGravityFlipped;
         }
     }
+    
 }
