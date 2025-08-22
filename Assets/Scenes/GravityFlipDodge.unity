@@ -1309,14 +1309,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1740023246291233614, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
     - target: {fileID: 2295134566339681011, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_Name
       value: GravityFlipUI
       objectReference: {fileID: 0}
     - target: {fileID: 3813891778056005511, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813891778056005511, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
+    - target: {fileID: 3813891778056005511, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+      objectReference: {fileID: 2967748514001353414, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
+    - target: {fileID: 3813891778056005511, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813891778056005511, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4001611943723761319, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
+    - target: {fileID: 4498578802828831269, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
     - target: {fileID: 5256320002887162289, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1329,6 +1357,14 @@ PrefabInstance:
       propertyPath: m_text
       value: SLIDE
       objectReference: {fileID: 0}
+    - target: {fileID: 6449359114961957674, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
+    - target: {fileID: 7762646686523398211, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
     - target: {fileID: 8500628279565319564, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1341,6 +1377,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8500628279915811448, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
     - target: {fileID: 8896011794894017982, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
