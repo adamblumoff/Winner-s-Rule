@@ -1,0 +1,55 @@
+# Unity files
+*.unity text eol=lf
+*.asset text eol=lf
+*.meta text eol=lf
+*.prefab text eol=lf
+
+# C# files
+*.cs text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Shader files
+*.shader text eol=lf
+*.hlsl text eol=lf
+*.cginc text eol=lf
+
+# Text files
+*.txt text eol=lf
+*.md text eol=lf
+
+# Binary files
+*.dll binary
+*.exe binary
+*.pdb binary
+*.lib binary
+*.a binary
+*.so binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.tga binary
+*.tiff binary
+*.iff binary
+*.pict binary
+*.dds binary
+*.xcf binary
+*.fbx binary
+*.obj binary
+*.dae binary
+*.3ds binary
+*.blend binary
+*.lxo binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.aif binary
+*.aiff binary
+*.mod binary
+*.it binary
+*.s3m binary
+*.xm binary
+*.ttf binary
+*.otf binary

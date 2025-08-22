@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be3329b86b54f34984e5c4c9d224d22, type: 3}
+  m_Name: GravityGameDodgeConfig
+  m_EditorClassIdentifier: Assembly-CSharp::MinigameConfig
+  durationSeconds: 25
+  startGravity: 1
+  gravityDown: -18
+  gravityUp: 18
+  playerSpeed: 9
+  dashSpeed: 25
+  dashTime: 0.25
+  dashCooldown: 1.5
+  hazardSpawnRate: 1.14
+  goodSpawnRate: 0.3
+  maxSimultaneous: 9
+  flipIntervalMin: 3
+  flipIntervalMax: 6
+  flipWarningTime: 0.4
+  hitsToFail: 3
+  scoreGoodPickup: 3
+  scorePerSecond: 1
+  rewardScalar: 0.15
+  spawnRateRampFactor: 0.6
+  speedRampFactor: 0.2
+  flipIntervalRampFactor: 0.15
+  useBurstWaves: 1
+  burstInterval: 7
+  burstDuration: 1.5
+  burstRateMultiplier: 2.5

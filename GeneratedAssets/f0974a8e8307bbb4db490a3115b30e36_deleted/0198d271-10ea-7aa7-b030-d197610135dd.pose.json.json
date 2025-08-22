@@ -1,0 +1,11 @@
+{
+    "asset": "f0974a8e8307bbb4db490a3115b30e36",
+    "fileName": "0198d271-10ea-7aa7-b030-d197610135dd.pose.json",
+    "prompt": "idle animation for the character in the gravity flip dodge sceen",
+    "negativePrompt": "",
+    "model": "a9c27ca4-3ec9-43e8-96cd-ee891aba64c5",
+    "modelName": "Text to Motion",
+    "customSeed": 1198240654,
+    "w3CTraceId": "7c772a90445f1737515cb9486ca46373",
+    "isTrimmed": false
+}

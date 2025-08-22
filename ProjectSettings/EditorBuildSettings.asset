@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GameRace_2D.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/GravityFlipDodge.unity
+    guid: 7d8b5f14c2e94a3b9f6e2c8d4a1b5e3f
+  - enabled: 1
     path: Assets/Scenes/Results.unity
     guid: ca55cc0923190c84e9890b116d22f02d
   - enabled: 1
