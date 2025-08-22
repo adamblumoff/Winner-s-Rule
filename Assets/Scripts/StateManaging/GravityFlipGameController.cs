@@ -236,7 +236,16 @@ public class GravityFlipGameController : MonoBehaviour
         // Check for game over
         if (hitsRemaining <= 0)
         {
-            EndGame();
+            // Trigger player death animation and end game after delay
+            if (player != null)
+            {
+                player.Die();
+                StartCoroutine(EndGameAfterDeathAnimation());
+            }
+            else
+            {
+                EndGame();
+            }
         }
     }
     
@@ -263,6 +272,23 @@ public class GravityFlipGameController : MonoBehaviour
         {
             totalGoodsSpawned++;
         }
+    }
+    
+    IEnumerator EndGameAfterDeathAnimation()
+    {
+        // Prevent multiple calls
+        if (currentState == GravityFlipGameState.Ending || currentState == GravityFlipGameState.Results)
+            yield break;
+            
+        currentState = GravityFlipGameState.Ending;
+        
+        // Wait for death animation to play (adjust time as needed for your animation length)
+        yield return new WaitForSeconds(1.5f);
+        
+        // Restore original config values when game ends
+        RestoreOriginalConfigValues();
+        
+        StartCoroutine(EndGameSequence());
     }
     
     void EndGame()

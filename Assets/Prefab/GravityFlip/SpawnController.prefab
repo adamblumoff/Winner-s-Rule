@@ -48,5 +48,5 @@ MonoBehaviour:
   spawnTable: {fileID: 11400000, guid: 6754110304c1a694ba12fee5f9ade8d7, type: 2}
   topSpawner: {fileID: 0}
   bottomSpawner: {fileID: 0}
-  spawnWidth: 10
+  spawnWidth: 20
   spawnMargin: 0.5

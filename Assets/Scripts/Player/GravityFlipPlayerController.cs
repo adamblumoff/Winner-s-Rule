@@ -17,6 +17,7 @@ public class GravityFlipPlayerController : MonoBehaviour
     private float dashCooldownTimer = 0f;
 
     private SpriteRenderer sprite;
+    private Animator animator;
     
     // Gravity cycle tracking for Quick Recovery card
     private bool hasDashedThisCycle = false;
@@ -28,6 +29,9 @@ public class GravityFlipPlayerController : MonoBehaviour
     // Input
     private float horizontalInput;
     private bool dashInput;
+    
+    // Death state
+    private bool isDead = false;
     
     // Events
     public System.Action OnDashUsed;
@@ -41,6 +45,7 @@ public class GravityFlipPlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         // Find config if not assigned
         if (config == null)
         {
@@ -87,9 +92,12 @@ public class GravityFlipPlayerController : MonoBehaviour
     
     void Update()
     {
-        // Handle input
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        dashInput = Input.GetKeyDown(KeyCode.Space);
+        // Handle input (only if not dead)
+        if (!isDead)
+        {
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+            dashInput = Input.GetKeyDown(KeyCode.Space);
+        }
         
         // Update dash cooldown
         if (dashCooldownTimer > 0f)
@@ -102,6 +110,9 @@ public class GravityFlipPlayerController : MonoBehaviour
         {
             StartCoroutine(PerformDash());
         }
+        
+        // Update animator parameters
+        UpdateAnimator();
     }
     
     void FixedUpdate()
@@ -118,11 +129,27 @@ public class GravityFlipPlayerController : MonoBehaviour
     {
         if (horizontalInput > 0)
         {
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
         else if (horizontalInput < 0)
         {
-            sprite.flipX = false;
+            sprite.flipX = true;
+        }
+    }
+    
+    void UpdateAnimator()
+    {
+        if (animator == null) return;
+        
+        // Only update animations if not dead
+        if (!isDead)
+        {
+            // Update movement animation
+            bool isMoving = Mathf.Abs(horizontalInput) > 0.1f;
+            animator.SetBool("isMoving", isMoving);
+            
+            // Update dash animation
+            animator.SetBool("isDashing", dashActive);
         }
     }
     IEnumerator PerformDash()
@@ -167,16 +194,45 @@ public class GravityFlipPlayerController : MonoBehaviour
     
     public void TakeHit(Vector2 knockbackDirection)
     {
+        if (isDead) return; // Don't take hits when already dead
+        
         OnHit?.Invoke();
         
         // Apply knockback impulse
         rb.AddForce(knockbackDirection * 5f, ForceMode2D.Impulse);
     }
     
+    public void Die()
+    {
+        if (isDead) return; // Prevent multiple death calls
+        
+        isDead = true;
+        
+        // Disable player input and movement
+        horizontalInput = 0f;
+        dashInput = false;
+        
+        // Stop any dash in progress
+        if (dashActive)
+        {
+            StopAllCoroutines();
+            dashActive = false;
+        }
+        
+        // Stop horizontal movement but keep gravity effects
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        
+        // Trigger death animation
+        if (animator != null)
+        {
+            animator.SetTrigger("Death");
+        }
+    }
+    
     // Public methods for external control
     public void SetInputEnabled(bool enabled)
     {
-        if (!enabled)
+        if (!enabled || isDead) // Disable input when dead
         {
             horizontalInput = 0f;
             dashInput = false;
@@ -187,6 +243,12 @@ public class GravityFlipPlayerController : MonoBehaviour
     {
         transform.position = position;
         rb.linearVelocity = Vector2.zero;
+        
+        // Reset death state if needed
+        if (isDead)
+        {
+            isDead = false;
+        }
     }
     
     void CheckForQuickRecovery()
