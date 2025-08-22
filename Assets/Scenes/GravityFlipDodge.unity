@@ -1314,6 +1314,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 852412945795104726, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Color.b
+      value: 0.25490198
+      objectReference: {fileID: 0}
+    - target: {fileID: 852412945795104726, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Color.g
+      value: 0.25490198
+      objectReference: {fileID: 0}
+    - target: {fileID: 852412945795104726, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Color.r
+      value: 0.25490198
+      objectReference: {fileID: 0}
     - target: {fileID: 1740023246291233614, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -1354,6 +1366,10 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2967748514001353414, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
+    - target: {fileID: 4175171655583941383, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2047613651344142497, guid: e869268efd7d38745a52967381cef55f, type: 3}
     - target: {fileID: 4478185779601650523, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: timerAndHitsGameObject
       value: 
@@ -1366,12 +1382,20 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2967748514001353414, guid: 8303a0bdc4ea4524b81b97db2c8c1275, type: 2}
+    - target: {fileID: 5253816352781852515, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2047613651344142497, guid: e869268efd7d38745a52967381cef55f, type: 3}
     - target: {fileID: 5256320002887162289, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5256320002887162289, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5376317941507065084, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6006918910363487970, guid: b26a599d12af5a441ac81314115a6e44, type: 3}
