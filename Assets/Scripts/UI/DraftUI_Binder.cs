@@ -20,7 +20,7 @@ public class DraftUI_Binder : MonoBehaviour
             return;
         }
 
-        header.text = "Winner's Draft";
+        header.text = $"Player {gsm.currentRoundWinner + 1}'s Draft";
         subheader.text = $"Round {gsm.currentRound}/{gsm.totalRounds}";
 
         Random.InitState(gsm.seed + gsm.currentRound);
