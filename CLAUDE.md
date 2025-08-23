@@ -47,3 +47,4 @@ Winner's Rule is a competitive party game where players compete in dynamic minig
 - Polish and balance iteration
 - Audio and visual effects integration
 - Preparing for additional minigame development
+- stay simple and concise in all implementations of features

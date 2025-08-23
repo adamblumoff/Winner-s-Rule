@@ -24,6 +24,7 @@ public class GravityFlipGameController : MonoBehaviour
     private float originalHazardSpawnRate;
     private float originalGoodSpawnRate;
     private float originalDurationSeconds;
+    private bool originalValuesSaved = false;
     
     [Header("References")]
     public GravityFlipPlayerController player;
@@ -34,7 +35,7 @@ public class GravityFlipGameController : MonoBehaviour
     // Game state
     private GravityFlipGameState currentState = GravityFlipGameState.Init;
     private float gameTimer;
-    private int score = 0;
+    public int score = 0;
     private int timeScore = 0;
     private int pickupScore = 0;
     private int hitsRemaining;
@@ -57,8 +58,15 @@ public class GravityFlipGameController : MonoBehaviour
     {
         currentState = GravityFlipGameState.Init;
         
-        // Save original config values first
-        SaveOriginalConfigValues();
+        // Save original config values first (only once)
+        if (!originalValuesSaved)
+        {
+            SaveOriginalConfigValues();
+            originalValuesSaved = true;
+        }
+        
+        // Reset to original values before applying effects
+        RestoreOriginalConfigValues();
         
         // Apply rule effects to config values
         ApplyRuleEffects();
@@ -442,15 +450,21 @@ public class GravityFlipGameController : MonoBehaviour
     
     void ApplyRuleEffects()
     {
-        if (GameStateManager.I == null || GameStateManager.I.activeRules == null) return;
+        if (GameStateManager.I == null) return;
         
-        Debug.Log($"Applying rule effects from {GameStateManager.I.activeRules.Count} active rules");
+        var gsm = GameStateManager.I;
+        int currentPlayer = gsm.currentPlayerIndex;
         
-        foreach (RuleCard rule in GameStateManager.I.activeRules)
+        // Only apply the current player's cards
+        if (gsm.playerCards[currentPlayer] == null) return;
+        
+        Debug.Log($"Applying rule effects for Player {currentPlayer + 1} from {gsm.playerCards[currentPlayer].Count} player-specific cards");
+        
+        foreach (RuleCard rule in gsm.playerCards[currentPlayer])
         {
             if (!rule.IsCompatibleWith(MinigameType.GravityFlipDodge)) continue;
             
-            Debug.Log($"Applying effects from rule: {rule.title}");
+            Debug.Log($"Applying Player {currentPlayer + 1}'s card: {rule.title}");
             
             // Apply positive effects
             if (rule.effects != null)

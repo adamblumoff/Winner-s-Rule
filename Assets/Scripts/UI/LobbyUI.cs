@@ -96,9 +96,13 @@ public class LobbyUI : MonoBehaviour
         int activePlayers = 0;
         for (int i = 0; i < playerActiveToggles.Length; i++)
         {
-            if (playerActiveToggles[i] && playerActiveToggles[i].isOn)
+            bool isActive = playerActiveToggles[i] && playerActiveToggles[i].isOn;
+            Debug.Log($"Player {i + 1}: Toggle={playerActiveToggles[i] != null}, IsOn={playerActiveToggles[i]?.isOn}, Active={isActive}");
+            if (isActive)
                 activePlayers++;
         }
+
+        Debug.Log($"Total active players: {activePlayers}");
 
         if (activePlayers < 2)
         {
@@ -108,11 +112,23 @@ public class LobbyUI : MonoBehaviour
 
         var gsm = GameStateManager.I;
         gsm.totalRounds = selectedRounds;
-        gsm.StartMatch();
+        gsm.StartMatch(activePlayers);
     }
 
     void GoToMainMenu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
+    public void EnableAllPlayers()
+    {
+        for (int i = 0; i < playerActiveToggles.Length; i++)
+        {
+            if (playerActiveToggles[i] != null)
+            {
+                playerActiveToggles[i].isOn = true;
+            }
+        }
+        Debug.Log("All player toggles enabled");
     }
 }

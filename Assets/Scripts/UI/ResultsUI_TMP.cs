@@ -54,9 +54,10 @@ public class ResultsUI_TMP : MonoBehaviour
 
         bool final = gsm.currentRound >= gsm.totalRounds;
 
+        Debug.Log("setup ui is getting called");
         title.text = final ? "Final Results" : "Round Results";
         subtitle.text = $"Round {gsm.currentRound}/{gsm.totalRounds}";
-        winnerText.text = $"Winner: Player {gsm.lastWinnerId + 1}";
+        winnerText.text = $"Winner: Player {gsm.currentRoundWinner + 1}";
 
         nextButtonLabel.text = final ? "Back to Lobby" : "Go to Draft";
         nextButton.onClick.RemoveAllListeners();

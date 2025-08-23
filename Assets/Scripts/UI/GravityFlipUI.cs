@@ -332,14 +332,38 @@ public class GravityFlipUI : MonoBehaviour
             // Hide active effects when results are shown
             ClearActiveEffects();
             
-            // Fill in result values
-            if (finalScoreText != null) finalScoreText.text = $"Final Score: {results.finalScore}";
+            // Handle player turns and button logic
+            var gsm = GameStateManager.I;
+            int currentPlayer = gsm.currentPlayerIndex;
+            
+            // Fill in result values with current player info
+            if (finalScoreText != null) 
+            {
+                finalScoreText.text = $"Player {currentPlayer + 1} - Score: {results.finalScore}";
+            }
             if (timeScoreText != null) timeScoreText.text = $"Time Score: {results.timeScore}";
             if (pickupScoreText != null) pickupScoreText.text = $"Pickup Score: {results.pickupScore}";
             if (accuracyText != null) accuracyText.text = $"Accuracy: {results.accuracy:F1}%";
             if (timeSurvivedText != null) timeSurvivedText.text = $"Time Survived: {results.timeSurvived:F1}s";
             if (hitsTakenText != null) hitsTakenText.text = $"Hits Taken: {results.hitsTaken}";
             if (draftBonusText != null) draftBonusText.text = $"Draft Bonus: {results.draftBonus}";
+            
+            // Always show "Next Player" button in GravityFlipUI results panel
+            if (continueButton != null)
+            {
+                var buttonText = continueButton.GetComponentInChildren<TMP_Text>();
+                if (buttonText != null)
+                {
+                    if (gsm.currentPlayerIndex + 1 >= gsm.totalPlayers)
+                    {
+                        buttonText.text = "Finish Round";
+                    }
+                    else
+                    {
+                        buttonText.text = "Next Player";
+                    }
+                }
+            }
         }
     }
     
@@ -362,9 +386,11 @@ public class GravityFlipUI : MonoBehaviour
     
     void ContinueToResults()
     {
-        if (gameController != null)
+        var gsm = GameStateManager.I;
+        if (gsm != null && gameController != null)
         {
-            gameController.ContinueToResults();
+            // Pass the current player's score and advance (either to next player or Results scene)
+            gsm.OnRoundEnd(gameController.score);
         }
     }
     
@@ -594,36 +620,51 @@ public class GravityFlipUI : MonoBehaviour
     // Load active effects from GameStateManager when scene starts
     void LoadActiveEffectsFromGameState()
     {
-        if (GameStateManager.I != null && GameStateManager.I.activeRules != null)
+        if (GameStateManager.I != null)
         {
-            Debug.Log($"Loading {GameStateManager.I.activeRules.Count} active effects from GameStateManager");
+            var gsm = GameStateManager.I;
+            int currentPlayer = gsm.currentPlayerIndex;
             
-            foreach (RuleCard rule in GameStateManager.I.activeRules)
+            // Only show the current player's cards
+            if (gsm.playerCards[currentPlayer] != null)
             {
-                // Only show cards compatible with current minigame
-                if (rule.IsCompatibleWith(MinigameType.GravityFlipDodge))
+                Debug.Log($"Loading {gsm.playerCards[currentPlayer].Count} active effects for Player {currentPlayer + 1}");
+                
+                foreach (RuleCard rule in gsm.playerCards[currentPlayer])
                 {
-                    Debug.Log($"Adding active effect: {rule.title}");
-                    AddActiveEffect(rule);
+                    // Only show cards compatible with current minigame
+                    if (rule.IsCompatibleWith(MinigameType.GravityFlipDodge))
+                    {
+                        Debug.Log($"Adding Player {currentPlayer + 1}'s active effect: {rule.title}");
+                        AddActiveEffect(rule);
+                    }
+                }
+                
+                // Show effects title
+                if (activeEffectsTitle != null)
+                {
+                    if (activeEffectElements.Count > 0)
+                    {
+                        activeEffectsTitle.text = $"Player {currentPlayer + 1}'s Effects ({activeEffectElements.Count})";
+                    }
+                    else
+                    {
+                        activeEffectsTitle.text = $"Player {currentPlayer + 1} - No Effects";
+                    }
                 }
             }
-            
-            // Show effects title
-            if (activeEffectsTitle != null)
+            else
             {
-                if (activeEffectElements.Count > 0)
+                Debug.Log($"Player {currentPlayer + 1} has no cards");
+                if (activeEffectsTitle != null)
                 {
-                    activeEffectsTitle.text = $"Active Effects ({activeEffectElements.Count})";
-                }
-                else
-                {
-                    activeEffectsTitle.text = "No Active Effects";
+                    activeEffectsTitle.text = $"Player {currentPlayer + 1} - No Effects";
                 }
             }
         }
         else
         {
-            Debug.Log("No GameStateManager or active rules found");
+            Debug.Log("No GameStateManager found");
         }
     }
     
