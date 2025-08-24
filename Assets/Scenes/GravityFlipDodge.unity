@@ -1162,6 +1162,10 @@ PrefabInstance:
       value: GravityPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 5052355570262019242, guid: cbded667821fded4f958d1ec3ac457ca, type: 3}
+      propertyPath: characterDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: 79d5d33a1e600554589abe803833f009, type: 2}
+    - target: {fileID: 5052355570262019242, guid: cbded667821fded4f958d1ec3ac457ca, type: 3}
       propertyPath: dashColliderOffset
       value: 0.8
       objectReference: {fileID: 0}
