@@ -7,6 +7,7 @@ public class GravityFlipPlayerController : MonoBehaviour
 {
     [Header("References")]
     public MinigameConfig config;
+    public CharacterSpriteDatabase characterDatabase;
     
     [Header("Camera Bounds")]
     public float leftBound = -8f;
@@ -84,6 +85,9 @@ public class GravityFlipPlayerController : MonoBehaviour
     
     void Start()
     {
+        // Apply selected character appearance first
+        ApplySelectedCharacter();
+        
         // Check if Quick Recovery card is active
         CheckForQuickRecovery();
         
@@ -395,6 +399,44 @@ public class GravityFlipPlayerController : MonoBehaviour
         spriteRotationCoroutine = null;
         
         Debug.Log($"Sprite rotated to {targetRotation}° (gravity {(isGravityDown ? "down" : "up")})");
+    }
+    
+    void ApplySelectedCharacter()
+    {
+        // Get the current player's character selection from GameStateManager
+        var gsm = GameStateManager.I;
+        if (gsm == null)
+        {
+            Debug.LogWarning("GameStateManager not found! Cannot apply selected character.");
+            return;
+        }
+        
+        if (characterDatabase == null)
+        {
+            Debug.LogWarning("CharacterSpriteDatabase not assigned! Cannot apply selected character.");
+            return;
+        }
+        
+        int currentPlayerIndex = gsm.currentPlayerIndex;
+        int selectedCharacterIndex = gsm.playerSelectedCharacters[currentPlayerIndex];
+        
+        var characterData = characterDatabase.GetCharacter(selectedCharacterIndex);
+        if (characterData == null)
+        {
+            Debug.LogWarning($"Character data not found for index {selectedCharacterIndex}! Using default character.");
+            return;
+        }
+        
+        // Apply the selected character's animator controller
+        if (animator != null && characterData.animatorController != null)
+        {
+            animator.runtimeAnimatorController = characterData.animatorController;
+            Debug.Log($"Applied character '{characterData.characterName}' to {gsm.playerNames[currentPlayerIndex]}");
+        }
+        else
+        {
+            Debug.LogWarning($"Could not apply character '{characterData.characterName}' - missing animator or controller!");
+        }
     }
     
     void OnDestroy()

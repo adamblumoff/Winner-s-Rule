@@ -151,9 +151,10 @@ public class SpawnerController : MonoBehaviour
     {
         float deltaTime = Time.deltaTime;
         
-        // Calculate difficulty-ramped spawn rates
-        float gameProgress = Time.time / config.durationSeconds;
-        float rampMultiplier = 1f + config.spawnRateRampFactor * gameProgress;
+        // Calculate difficulty-ramped spawn rates based on completed rounds (drafts)
+        var gsm = GameStateManager.I;
+        float roundProgress = gsm != null ? (float)gsm.currentRound / gsm.totalRounds : 0f;
+        float rampMultiplier = 1f + (config.spawnRateRampFactor * 0.3f) * roundProgress; // 0.3f makes it ramp more slowly
         
         float currentHazardRate = config.hazardSpawnRate * rampMultiplier;
         float currentGoodRate = config.goodSpawnRate * rampMultiplier;
@@ -268,9 +269,10 @@ public class SpawnerController : MonoBehaviour
         float randomX = Random.Range(-spawnWidth / 2f + spawnMargin, spawnWidth / 2f - spawnMargin);
         Vector3 spawnPos = spawner.position + new Vector3(randomX, 0, 0);
         
-        // Calculate speed with difficulty ramp
-        float gameProgress = Time.time / config.durationSeconds;
-        float speedMultiplier = 1f + config.speedRampFactor * gameProgress;
+        // Calculate speed with difficulty ramp based on rounds (drafts)
+        var gsm = GameStateManager.I;
+        float roundProgress = gsm != null ? (float)gsm.currentRound / gsm.totalRounds : 0f;
+        float speedMultiplier = 1f + (config.speedRampFactor * 0.3f) * roundProgress; // 0.3f makes it ramp more slowly
         float speed = Random.Range(spawnData.speedMin, spawnData.speedMax) * speedMultiplier;
         
         // Calculate size

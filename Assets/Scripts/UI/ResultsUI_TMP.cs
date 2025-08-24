@@ -57,7 +57,8 @@ public class ResultsUI_TMP : MonoBehaviour
         Debug.Log("setup ui is getting called");
         title.text = final ? "Final Results" : "Round Results";
         subtitle.text = $"Round {gsm.currentRound}/{gsm.totalRounds}";
-        winnerText.text = $"Winner: Player {gsm.currentRoundWinner + 1}";
+        string winnerName = gsm.playerNames[gsm.currentRoundWinner] ?? $"Player {gsm.currentRoundWinner + 1}";
+        winnerText.text = $"Winner: {winnerName}";
 
         nextButtonLabel.text = final ? "Back to Lobby" : "Go to Draft";
         nextButton.onClick.RemoveAllListeners();

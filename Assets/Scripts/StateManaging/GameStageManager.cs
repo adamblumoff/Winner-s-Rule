@@ -15,7 +15,9 @@ public class GameStateManager : MonoBehaviour
     public int[] playerScores = new int[4]; // Track scores for up to 4 players
     public int currentRoundWinner = 0;
     
-    // Player-specific cards
+    // Player names, character selections, and cards
+    public string[] playerNames = new string[4]; // Store player names
+    public int[] playerSelectedCharacters = new int[4]; // Store selected character indices
     public List<RuleCard>[] playerCards = new List<RuleCard>[4]; // Each player's cards
 
     void Awake()
@@ -55,20 +57,38 @@ public class GameStateManager : MonoBehaviour
     }
 
 
-    public void StartMatch(int playerCount = 2) 
+    public void StartMatch(int playerCount = 2, string[] names = null, int[] characterSelections = null) 
     { 
         currentRound = 0; 
         activeRules.Clear(); 
         totalPlayers = playerCount;
         currentPlayerIndex = 0;
         
-        // Initialize player cards arrays
+        // Initialize player cards arrays, names, and character selections
         for (int i = 0; i < 4; i++)
         {
             if (playerCards[i] == null)
                 playerCards[i] = new List<RuleCard>();
             else
                 playerCards[i].Clear();
+                
+            // Set player names from input or default
+            if (names != null && i < names.Length && !string.IsNullOrEmpty(names[i]))
+                playerNames[i] = names[i];
+            else
+                playerNames[i] = $"Player {i + 1}";
+                
+            // Set player character selections from input or default to 0
+            if (characterSelections != null && i < characterSelections.Length)
+                playerSelectedCharacters[i] = characterSelections[i];
+            else
+                playerSelectedCharacters[i] = 0; // Default to first character
+        }
+        
+        Debug.Log($"Starting match with {playerCount} players: {string.Join(", ", playerNames[..playerCount])}");
+        for (int i = 0; i < playerCount; i++)
+        {
+            Debug.Log($"{playerNames[i]} selected character index: {playerSelectedCharacters[i]}");
         }
         
         LoadRace(); 
@@ -93,7 +113,8 @@ public class GameStateManager : MonoBehaviour
                     currentRoundWinner = i;
                 }
             }
-            Debug.Log($"Round winner: Player {currentRoundWinner + 1} with score {playerScores[currentRoundWinner]}");
+            string winnerName = playerNames[currentRoundWinner] ?? $"Player {currentRoundWinner + 1}";
+            Debug.Log($"Round winner: {winnerName} with score {playerScores[currentRoundWinner]}");
 
             DecrementCurrentPlayerCards();
             currentPlayerIndex = 0;
@@ -111,14 +132,15 @@ public class GameStateManager : MonoBehaviour
     }
     public void ApplyDraftChoice(RuleCard c) 
     { 
-        Debug.Log($"ApplyDraftChoice called with card: {c?.title ?? "null"} for winner Player {currentRoundWinner + 1}");
+        string winnerName = playerNames[currentRoundWinner] ?? $"Player {currentRoundWinner + 1}";
+        Debug.Log($"ApplyDraftChoice called with card: {c?.title ?? "null"} for winner {winnerName}");
         if (c) 
         {
             var instantiated = ScriptableObject.Instantiate(c);
             
             // Add card to the winner's collection
             playerCards[currentRoundWinner].Add(instantiated);
-            Debug.Log($"Added card '{instantiated.title}' to Player {currentRoundWinner + 1}. They now have {playerCards[currentRoundWinner].Count} cards.");
+            Debug.Log($"Added card '{instantiated.title}' to {winnerName}. They now have {playerCards[currentRoundWinner].Count} cards.");
         }
         else
         {

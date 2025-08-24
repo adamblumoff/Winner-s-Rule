@@ -339,7 +339,8 @@ public class GravityFlipUI : MonoBehaviour
             // Fill in result values with current player info
             if (finalScoreText != null) 
             {
-                finalScoreText.text = $"Player {currentPlayer + 1} - Score: {results.finalScore}";
+                string playerName = gsm.playerNames[currentPlayer] ?? $"Player {currentPlayer + 1}";
+                finalScoreText.text = $"{playerName} - Score: {results.finalScore}";
             }
             if (timeScoreText != null) timeScoreText.text = $"Time Score: {results.timeScore}";
             if (pickupScoreText != null) pickupScoreText.text = $"Pickup Score: {results.pickupScore}";
@@ -643,22 +644,24 @@ public class GravityFlipUI : MonoBehaviour
                 // Show effects title
                 if (activeEffectsTitle != null)
                 {
+                    string playerName = gsm.playerNames[currentPlayer] ?? $"Player {currentPlayer + 1}";
                     if (activeEffectElements.Count > 0)
                     {
-                        activeEffectsTitle.text = $"Player {currentPlayer + 1}'s Effects ({activeEffectElements.Count})";
+                        activeEffectsTitle.text = $"{playerName}'s Effects ({activeEffectElements.Count})";
                     }
                     else
                     {
-                        activeEffectsTitle.text = $"Player {currentPlayer + 1} - No Effects";
+                        activeEffectsTitle.text = $"{playerName} - No Effects";
                     }
                 }
             }
             else
             {
-                Debug.Log($"Player {currentPlayer + 1} has no cards");
+                string playerName = gsm.playerNames[currentPlayer] ?? $"Player {currentPlayer + 1}";
+                Debug.Log($"{playerName} has no cards");
                 if (activeEffectsTitle != null)
                 {
-                    activeEffectsTitle.text = $"Player {currentPlayer + 1} - No Effects";
+                    activeEffectsTitle.text = $"{playerName} - No Effects";
                 }
             }
         }
